@@ -23,20 +23,23 @@ router.get('/', function(req, res, next) {
     // http://api.imgur.com/endpoints/gallery#gallery-search
     // Route	https://api.imgur.com/3/gallery/search/{sort}/{page}
     //
+
+    // has a query string
     if(req.query.q) {
         // defaults to viral
         var sort = req.query.sort || 'viral';
         var page = parseInt(req.query.page) || 0;
         var query = req.query.q;
-        // has a query string
+        // make request
         request({
             'url': IMGUR_GALLERY_PATH + '/' + sort + '/' + page + '?q_type=anigif&q=' + query,
             'headers': {
                 'Authorization': 'Client-ID ' + config.imgur.client_id
             }
         }).then(function(response) {
+            // JSON parse errors will be caught by the promises
             var json = JSON.parse(response);
-            console.log(json);
+            // console.log(json);
             res.render('index', {
                 data: json.data,
                 query: query,
@@ -48,8 +51,9 @@ router.get('/', function(req, res, next) {
         })
         .catch(function(error) {
             console.error("IMGUR Search Error: ", error)
-            res.render('index', {
-                error: error
+            res.render('error', {
+                error: error,
+                message: error.message
             });
         });
     } else {

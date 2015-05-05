@@ -1,10 +1,13 @@
 $(document).ready(function() {
+    /* Gifffer is a gif start/stopper */
     Gifffer();
 
+    /* Search on click of submit button */
     $('.search-button').on('click', function(e) {
        $('form').submit();
     });
 
+    /* Show information on mouseover of the current pane */
     $('.preview-container').on('mouseover', function(e) {
        $(this).find('.additional').css({
            'opacity': 1,
@@ -13,6 +16,7 @@ $(document).ready(function() {
        });
     });
 
+    /* Hide info on mouseout */
     $('.preview-container').on('mouseout', function(e) {
         $(this).find('.additional')
             .css({
